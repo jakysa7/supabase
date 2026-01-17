@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict AbzplbBn02vtqdgVlZIfJ9bnr3kP8nifnhv3JZgddTo1v1UGsEbtgT23bwibpar
+\restrict UnvDtAvLF7C8akbkxsldf988qfzmAX4mR8wticpkiC1SY578tLKVSfBZmK8SnPa
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-3.pgdg24.04+1)
@@ -3159,5 +3159,5 @@ ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict AbzplbBn02vtqdgVlZIfJ9bnr3kP8nifnhv3JZgddTo1v1UGsEbtgT23bwibpar
+\unrestrict UnvDtAvLF7C8akbkxsldf988qfzmAX4mR8wticpkiC1SY578tLKVSfBZmK8SnPa
 
