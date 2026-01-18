@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict UnvDtAvLF7C8akbkxsldf988qfzmAX4mR8wticpkiC1SY578tLKVSfBZmK8SnPa
+\restrict ud4B6VSaIlXhi7nK0FxI99WJwBIEMu7bQQlAJHhaKVHmzHfwtG5SB5okrsg9VWm
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-3.pgdg24.04+1)
@@ -444,16 +444,8 @@ CREATE TABLE public.levels (
     created_by uuid DEFAULT COALESCE(auth.uid(), '71853be9-7882-4c0f-9c6c-08a3445b67cf'::uuid) NOT NULL,
     updated_by uuid DEFAULT COALESCE(auth.uid(), '71853be9-7882-4c0f-9c6c-08a3445b67cf'::uuid) NOT NULL,
     level_percentage text,
-    or_logic_multiplier numeric(9,6),
-    and_logic_multiplier numeric(9,6)
+    relevance_value numeric(9,6)
 );
-
-
---
--- Name: COLUMN levels.or_logic_multiplier; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.levels.or_logic_multiplier IS 'The number you multiply across multiple OR terms of claim certainty / reason relevance';
 
 
 --
@@ -582,11 +574,11 @@ CREATE VIEW public.reason_relevance AS
     r.reason_side,
     vote_counts.total_assessments AS relevance_vote_count,
     vote_counts.weighted_average_level_id AS relevance_average_level_id,
-    levels.value AS relevance_level_probability,
+    levels.relevance_value AS relevance_level_probability,
     levels.relevance_name AS relevance_level_name,
     levels.relevance_description AS relevance_level_description,
-    levels.level_percentage AS relevance_level_percentage,
-    levels.or_logic_multiplier AS relevance_level_multiplier
+    regexp_replace(levels.relevance_name, '.*\((\d+%)\).*'::text, '\1'::text) AS relevance_level_percentage,
+    levels.relevance_value AS relevance_level_multiplier
    FROM ((public.reasons r
      LEFT JOIN ( SELECT reasons.id AS reason_id,
             count(votes.id) AS total_assessments,
@@ -1904,6 +1896,13 @@ CREATE INDEX kv_store_a42d30f9_key_idx75 ON public.kv_store_a42d30f9 USING btree
 
 
 --
+-- Name: kv_store_a42d30f9_key_idx76; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx76 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
 -- Name: kv_store_a42d30f9_key_idx8; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3159,5 +3158,5 @@ ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict UnvDtAvLF7C8akbkxsldf988qfzmAX4mR8wticpkiC1SY578tLKVSfBZmK8SnPa
+\unrestrict ud4B6VSaIlXhi7nK0FxI99WJwBIEMu7bQQlAJHhaKVHmzHfwtG5SB5okrsg9VWm
 
