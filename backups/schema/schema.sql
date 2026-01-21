@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ud4B6VSaIlXhi7nK0FxI99WJwBIEMu7bQQlAJHhaKVHmzHfwtG5SB5okrsg9VWm
+\restrict pOErKfvRUrBxJ7LUKYoGsy8PZBQXmhkdbeCty3x0MUmk8aIdNpz6DIcQRjs5uqK
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-3.pgdg24.04+1)
@@ -516,11 +516,9 @@ CREATE VIEW public.claim_certainty AS
  SELECT c.id AS claim_id,
     cv.total_assessments AS certainty_vote_count,
     cv.weighted_average_level_id AS certainty_average_level_id,
-    levels.value AS certainty_level_probability,
+    levels.value AS certainty_level_value,
     levels.certainty_name AS certainty_level_name,
-    levels.certainty_description AS certainty_level_description,
-    levels.level_percentage AS certainty_level_percentage,
-    levels.value AS certainty_level_multiplier
+    levels.certainty_description AS certainty_level_description
    FROM ((public.claims c
      LEFT JOIN ( SELECT claims.id AS claim_id,
             count(votes.id) AS total_assessments,
@@ -574,11 +572,9 @@ CREATE VIEW public.reason_relevance AS
     r.reason_side,
     vote_counts.total_assessments AS relevance_vote_count,
     vote_counts.weighted_average_level_id AS relevance_average_level_id,
-    levels.relevance_value AS relevance_level_probability,
+    levels.relevance_value AS relevance_level_value,
     levels.relevance_name AS relevance_level_name,
-    levels.relevance_description AS relevance_level_description,
-    regexp_replace(levels.relevance_name, '.*\((\d+%)\).*'::text, '\1'::text) AS relevance_level_percentage,
-    levels.relevance_value AS relevance_level_multiplier
+    levels.relevance_description AS relevance_level_description
    FROM ((public.reasons r
      LEFT JOIN ( SELECT reasons.id AS reason_id,
             count(votes.id) AS total_assessments,
@@ -602,40 +598,41 @@ CREATE VIEW public.claim_reason_certainty AS
     rrr.certainty_percentage AS certainty_percentage_refute,
     (rrs.certainty_percentage * (1.0 - rrr.certainty_percentage)) AS reasoned_certainty,
     ccp.competing_claims_falsehood,
-    (1.0 - ((1.0 - (rrs.certainty_percentage * (1.0 - rrr.certainty_percentage))) * ((1)::numeric - ((1)::numeric - ((1)::numeric - ccp.competing_claims_falsehood))))) AS combined_mutually_exclusive_certainty
+    (1.0 - ((1.0 - (rrs.certainty_percentage * (1.0 - rrr.certainty_percentage))) * ((1)::numeric - ((1)::numeric - ((1)::numeric - ccp.competing_claims_falsehood))))) AS combined_mutually_exclusive_certainty,
+    (1.0 / (1.0 - (1.0 - ((1.0 - (rrs.certainty_percentage * (1.0 - rrr.certainty_percentage))) * ((1)::numeric - ((1)::numeric - ((1)::numeric - ccp.competing_claims_falsehood))))))) AS certainty_score
    FROM (((public.claims c
      LEFT JOIN ( SELECT rr.target_claim_id AS claim_id,
-            ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_multiplier * cc.certainty_level_multiplier))), (1)::numeric)) AS certainty_percentage
+            ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_value * cc.certainty_level_value))), (1)::numeric)) AS certainty_percentage
            FROM (public.reason_relevance rr
              LEFT JOIN public.claim_certainty cc ON ((cc.claim_id = rr.reason_claim_id)))
           WHERE (rr.reason_side = 'support'::public.reason_side_enum)
           GROUP BY rr.target_claim_id
-         HAVING (sum(rr.relevance_level_multiplier) > (0)::numeric)) rrs ON ((rrs.claim_id = c.id)))
+         HAVING (sum(rr.relevance_level_value) > (0)::numeric)) rrs ON ((rrs.claim_id = c.id)))
      LEFT JOIN ( SELECT rr.target_claim_id AS claim_id,
-            ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_multiplier * cc.certainty_level_multiplier))), (1)::numeric)) AS certainty_percentage
+            ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_value * cc.certainty_level_value))), (1)::numeric)) AS certainty_percentage
            FROM (public.reason_relevance rr
              LEFT JOIN public.claim_certainty cc ON ((cc.claim_id = rr.reason_claim_id)))
           WHERE (rr.reason_side = 'refute'::public.reason_side_enum)
           GROUP BY rr.target_claim_id
-         HAVING (sum(rr.relevance_level_multiplier) > (0)::numeric)) rrr ON ((rrr.claim_id = c.id)))
+         HAVING (sum(rr.relevance_level_value) > (0)::numeric)) rrr ON ((rrr.claim_id = c.id)))
      LEFT JOIN ( SELECT c1.id AS claim_id,
             public.product((1.0 - (r2s.certainty_percentage * (1.0 - r2r.certainty_percentage)))) AS competing_claims_falsehood
            FROM (((public.claims c1
              JOIN public.claims c2 ON (((c2.set_id = c1.set_id) AND (c2.id <> c1.id) AND (c2.is_active = true))))
              LEFT JOIN ( SELECT rr.target_claim_id AS claim_id,
-                    ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_multiplier * cc.certainty_level_multiplier))), (1)::numeric)) AS certainty_percentage
+                    ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_value * cc.certainty_level_value))), (1)::numeric)) AS certainty_percentage
                    FROM (public.reason_relevance rr
                      LEFT JOIN public.claim_certainty cc ON ((cc.claim_id = rr.reason_claim_id)))
                   WHERE (rr.reason_side = 'support'::public.reason_side_enum)
                   GROUP BY rr.target_claim_id
-                 HAVING (sum(rr.relevance_level_multiplier) > (0)::numeric)) r2s ON ((r2s.claim_id = c2.id)))
+                 HAVING (sum(rr.relevance_level_value) > (0)::numeric)) r2s ON ((r2s.claim_id = c2.id)))
              LEFT JOIN ( SELECT rr.target_claim_id AS claim_id,
-                    ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_multiplier * cc.certainty_level_multiplier))), (1)::numeric)) AS certainty_percentage
+                    ((1)::numeric - COALESCE(public.product(((1)::numeric - (rr.relevance_level_value * cc.certainty_level_value))), (1)::numeric)) AS certainty_percentage
                    FROM (public.reason_relevance rr
                      LEFT JOIN public.claim_certainty cc ON ((cc.claim_id = rr.reason_claim_id)))
                   WHERE (rr.reason_side = 'refute'::public.reason_side_enum)
                   GROUP BY rr.target_claim_id
-                 HAVING (sum(rr.relevance_level_multiplier) > (0)::numeric)) r2r ON ((r2r.claim_id = c2.id)))
+                 HAVING (sum(rr.relevance_level_value) > (0)::numeric)) r2r ON ((r2r.claim_id = c2.id)))
           GROUP BY c1.id) ccp ON ((ccp.claim_id = c.id)));
 
 
@@ -1903,6 +1900,13 @@ CREATE INDEX kv_store_a42d30f9_key_idx76 ON public.kv_store_a42d30f9 USING btree
 
 
 --
+-- Name: kv_store_a42d30f9_key_idx77; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx77 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
 -- Name: kv_store_a42d30f9_key_idx8; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3158,5 +3162,5 @@ ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ud4B6VSaIlXhi7nK0FxI99WJwBIEMu7bQQlAJHhaKVHmzHfwtG5SB5okrsg9VWm
+\unrestrict pOErKfvRUrBxJ7LUKYoGsy8PZBQXmhkdbeCty3x0MUmk8aIdNpz6DIcQRjs5uqK
 
