@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict V7yT8QbficOdqPHYbJszEge7VCJEXATRhkwuOJMkR2BaEw6PtOcKPxXPO2Z9BWa
+\restrict bqd0Q7ooesXBSY7qIeyl0zfgXEMogmRnilEaedhlbhCwNjh0CAv19WoWmSh9Hzn
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-3.pgdg24.04+1)
@@ -1172,13 +1172,6 @@ CREATE INDEX claim_sets_name_idx ON public.claim_sets USING btree (name);
 
 
 --
--- Name: claim_sets_name_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX claim_sets_name_key ON public.claim_sets USING btree (lower(name));
-
-
---
 -- Name: claim_sets_search_vector_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1239,13 +1232,6 @@ CREATE INDEX claims_moderated_by_idx ON public.claims USING btree (moderated_by)
 --
 
 CREATE INDEX claims_name_idx ON public.claims USING btree (name);
-
-
---
--- Name: claims_name_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX claims_name_key ON public.claims USING btree (lower(name));
 
 
 --
@@ -1970,10 +1956,101 @@ CREATE INDEX kv_store_a42d30f9_key_idx85 ON public.kv_store_a42d30f9 USING btree
 
 
 --
+-- Name: kv_store_a42d30f9_key_idx86; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx86 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx87; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx87 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx88; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx88 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx89; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx89 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
 -- Name: kv_store_a42d30f9_key_idx9; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX kv_store_a42d30f9_key_idx9 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx90; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx90 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx91; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx91 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx92; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx92 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx93; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx93 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx94; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx94 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx95; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx95 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx96; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx96 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx97; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx97 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx98; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx98 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
 
 
 --
@@ -3218,5 +3295,5 @@ ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict V7yT8QbficOdqPHYbJszEge7VCJEXATRhkwuOJMkR2BaEw6PtOcKPxXPO2Z9BWa
+\unrestrict bqd0Q7ooesXBSY7qIeyl0zfgXEMogmRnilEaedhlbhCwNjh0CAv19WoWmSh9Hzn
 
