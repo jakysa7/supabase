@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict bqd0Q7ooesXBSY7qIeyl0zfgXEMogmRnilEaedhlbhCwNjh0CAv19WoWmSh9Hzn
+\restrict BNWRBzXHGWaCqh4XpcwWZJvpndqp3SHpXNAgFTAX3egEYykNnhzrtEMYxSuXBCT
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-3.pgdg24.04+1)
@@ -1382,6 +1382,76 @@ CREATE INDEX kv_store_a42d30f9_key_idx10 ON public.kv_store_a42d30f9 USING btree
 
 
 --
+-- Name: kv_store_a42d30f9_key_idx100; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx100 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx101; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx101 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx102; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx102 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx103; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx103 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx104; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx104 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx105; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx105 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx106; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx106 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx107; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx107 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx108; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx108 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx109; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx109 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
 -- Name: kv_store_a42d30f9_key_idx11; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2051,6 +2121,13 @@ CREATE INDEX kv_store_a42d30f9_key_idx97 ON public.kv_store_a42d30f9 USING btree
 --
 
 CREATE INDEX kv_store_a42d30f9_key_idx98 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
+
+
+--
+-- Name: kv_store_a42d30f9_key_idx99; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX kv_store_a42d30f9_key_idx99 ON public.kv_store_a42d30f9 USING btree (key text_pattern_ops);
 
 
 --
@@ -3295,5 +3372,5 @@ ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict bqd0Q7ooesXBSY7qIeyl0zfgXEMogmRnilEaedhlbhCwNjh0CAv19WoWmSh9Hzn
+\unrestrict BNWRBzXHGWaCqh4XpcwWZJvpndqp3SHpXNAgFTAX3egEYykNnhzrtEMYxSuXBCT
 
